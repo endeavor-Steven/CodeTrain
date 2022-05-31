@@ -40,6 +40,8 @@ package leetcode.editor.cn;
 // Related Topics 栈 树 深度优先搜索 二叉树 👍 1448 👎 0
 
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 
 public class BinaryTreeInorderTraversal{
@@ -78,19 +80,42 @@ public class TreeNode {
   }
 }
 class Solution {
+    /**
+     * 方法一：递归
+     */
+//    public List<Integer> inorderTraversal(TreeNode root) {
+//        List<Integer>  ans = new ArrayList<>();
+//        inoder(root, ans);
+//        return ans;
+//    }
+//    public static void inoder(TreeNode root, List<Integer>  ans) {
+//        if (root != null) {
+//            ans.add(root.val);
+//            inoder(root.left, ans);
+//            inoder(root.right, ans);
+//        }
+//    }
+
+    /**
+     * 方法2：迭代法
+     * 使用栈来模拟递归，左下方搜索，
+     */
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer>  ans = new ArrayList<>();
-        inoder(root, ans);
+        Deque<TreeNode> stack = new LinkedList<>();
+        if (root == null)  return ans;
+
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {//疯狂向左下角找
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            ans.add(root.val);
+            root = root.right;
+        }
         return ans;
     }
-    public static void inoder(TreeNode root, List<Integer>  ans) {
-        if (root != null) {
-            ans.add(root.val);
-            inoder(root.left, ans);
-            inoder(root.right, ans);
-        }
-    }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
