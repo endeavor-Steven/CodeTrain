@@ -107,6 +107,13 @@ class Solution {
         }
         return root;
     }
+
+
+    /**
+     * 直觉做法：
+     * 中序遍历获得所有的节点，放到集合中
+     * 然后从末端开始累加更新节点。从这一步可以看出，使用栈作为存储可以比较方便的取到末端
+     */
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
