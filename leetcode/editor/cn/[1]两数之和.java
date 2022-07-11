@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-
+import java.util.*;
 //给定一个整数数组 nums 和一个整数目标值 target，请你在该数组中找出 和为目标值 target 的那 两个 整数，并返回它们的数组下标。 
 //
 // 你可以假设每种输入只会对应一个答案。但是，数组中同一个元素在答案里不能重复出现。 
@@ -52,29 +52,37 @@ public class TwoSum{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        /**
-         * 方法一：
-         * 使用二重循环枚举比较和
-         */
+//    public int[] twoSum(int[] nums, int target) {
+//        /**
+//         * 方法一：
+//         * 使用二重循环枚举比较和
+//         */
+//        for (int i = 0; i < nums.length; i++) {
+//            for (int j = i + 1; j < nums.length; j++) {
+//                if (nums[i] + nums[j] == target)
+//                    return new int[]{i, j};
+//            }
+//        }
+//        return new int[2];
+//    }
 
-        /**
-         * 方法二：
-         * 使用HashMap，寻找target-nums[i]
-         */
-        int[] ans = new int[2];
-        Map<Integer,Integer> map = new HashMap<>();
+    /**
+     * 方法二：
+     * 使用HashMap，寻找target-nums[i]
+     *
+     * HashMap可以在o(1)的时间小号下寻找到差值
+     */
+    public int[] twoSum(int[] nums, int target) {
+        Map<Integer, Integer> map = new HashMap<>();//key:目标值， value:目标索引
         for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i])) {
-                ans[0] = i;
-                ans[1] = map.get(target - nums[i]);
+            int x = target - nums[i];
+            if (map.containsKey(x)) {
+                return new int[]{i, map.get(x)};//这个地方可能返回的是逆序，问题不大，有需求改一下就好了
             } else {
                 map.put(nums[i], i);
             }
         }
-        return ans;
+        return new int[2];
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
-
 }
