@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-
+import java.util.*;
 //给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。 
 //
 // 请你将两个数相加，并以相同形式返回一个表示和的链表。 
@@ -48,47 +48,81 @@ public class AddTwoNumbers{
     }
 
 //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-public class ListNode {
-    int val;
-    ListNode next;
-    ListNode() {}
-    ListNode(int val) { this.val = val; }
-    ListNode(int val, ListNode next) { this.val = val; this.next = next; }
-}
+
 class Solution {
+    //链表节点的定义
+    public class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+    }
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode ans = new ListNode(0);
-        ListNode rear = ans;
-        int carry = 0;
-
+        /**
+         * 思路分析：
+         * 逆序存储
+         * 逐位相加之后，可能会遇到要进位的情况
+         */
+        ListNode ans = new ListNode();          //第一个节点
+        ListNode dummyHead = ans;    //头节点
+        int sum = 0;                            //进位符号，也可以用来存储第一位
         while (l1 != null || l2 != null) {
-            int val1 = l1 == null ? 0 : l1.val;
-            int val2 = l2 == null ? 0 : l2.val;
-            int sum = val1 + val2 + carry; //取出相加位
+            sum += l1.val + l2.val;
+            ListNode tmp = new ListNode(sum % 10);//新节点的值应该是只存储sum的个位数，十位数给下一节
+            sum /= 10;                         //保留十位作为进位
+            ans.next = tmp;
 
-            carry = sum / 10;
-            sum %= 10;
-
-            ListNode tmp = new ListNode(sum);
-            rear.next = tmp;
-
-            if (l1 != null) l1 = l1.next;
-            if (l2 != null) l2 = l2.next;//迭代
+            ans = ans.next;                     //迭代
+            l1 = l1.next;
+            l2 = l2.next;
         }
-        if (carry == 1) rear.next = new ListNode(carry);
-        return ans.next;
+        while (l1 != null) {
+            sum += l1.val;
+            ListNode tmp = new ListNode(sum % 10);
+            sum /= 10;
+            ans.next = tmp;
+            ans = ans.next;
+            l1 = l1.next;
+        }
+        while (l2 != null) {
+            sum += l2.val;
+            ListNode tmp = new ListNode(sum % 10);
+            sum /= 10;
+            ans.next = tmp;
+            ans = ans.next;
+            l2 = l2.next;
+        }
+        if (sum != 0) {
+            ListNode tmp = new ListNode(sum);
+            ans.next = tmp;
+        }
+        return dummyHead.next;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
+
+
+
+//    Solution.ListNode ans = new Solution.ListNode(0);
+//    Solution.ListNode rear = ans;
+//    int carry = 0;
+//
+//        while (l1 != null || l2 != null) {
+//                int val1 = l1 == null ? 0 : l1.val;
+//                int val2 = l2 == null ? 0 : l2.val;
+//                int sum = val1 + val2 + carry; //取出相加位
+//
+//                carry = sum / 10;
+//                sum %= 10;
+//
+//                ListNode tmp = new ListNode(sum);
+//                rear.next = tmp;
+//
+//                if (l1 != null) l1 = l1.next;
+//                if (l2 != null) l2 = l2.next;//迭代
+//                }
+//                if (carry == 1) rear.next = new ListNode(carry);
+//                return ans.next;
