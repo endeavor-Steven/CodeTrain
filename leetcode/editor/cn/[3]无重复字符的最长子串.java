@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-
+import java.util.*;
 //给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。 
 //
 // 
@@ -55,35 +55,43 @@ class Solution {
     public int lengthOfLongestSubstring(String s) {
         /**
          * 方法一：使用HashSet的滑动窗口
-         * 如果没发现重复元素，右指针加一，元素加入set，如果发现重复，左指针加一，移除set第一个元素
+         * 右边界寻找如果没发现重复元素，元素加入set，右指针加一
+         * 如果发现重复,移除set第一个元素，左指针加一
          */
-//        if (s.length() == 1) return 1;
-//        if (s.length() == 0) return 0;
-//        Set<Character> set = new HashSet<>();
-//        int left = 0, right = 0, max = 0;
-//        while (right < s.length()) {
-//            if (!set.contains(s.charAt(right))) {
-//                set.add(s.charAt(right++));
-//                max = Math.max(max, right - left);
-//            } else {
-//                set.remove(s.charAt(left++));
-//            }
-//        }
-//        return max;
+        if (s.length() == 1) return 1;
+        if (s.length() == 0) return 0;
+        Set<Character> set = new HashSet<>();
+        int left = 0, right = 0, max = 0;
+        while (right < s.length()) {
+            if (!set.contains(s.charAt(right))) {
+                set.add(s.charAt(right++));
+                max = Math.max(max, right - left);
+            } else {
+                set.remove(s.charAt(left++));
+            }
+        }
+        return max;
+    }
 
+
+    public int lengthOfLongestSubstring2(String s) {
         /**
+         * 对方法一的优化
          * 方法2：使用HashMap的滑动窗口
+         * 如果右边界在搜索的过程中，搜索到重复值，则将左边界更新到右边界+1（完成优化）
+         * 用map.put完成对重复值的覆盖
          */
+
         if (s.length() == 1) return 1;
         if (s.length() == 0) return 0;
         int left = 0, max = 0;
         Map<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < s.length(); i++) {
-            if (map.containsKey(s.charAt(i))) {
-                left = Math.max(left, map.get(s.charAt(i)) + 1);//同样的情况的话把左指针更新到最右边
+        for (int right = 0; right < s.length(); right++) {
+            if (map.containsKey(s.charAt(right))) {
+                left = Math.max(left, map.get(s.charAt(right)) + 1);//同样的情况的话把左指针更新到最右边+1
             }
-            map.put(s.charAt(i), i);
-            max = Math.max(max, i - left + 1);
+            map.put(s.charAt(right), right);
+            max = Math.max(max, right - left + 1); //长度问题要仔细
         }
         return max;
     }
