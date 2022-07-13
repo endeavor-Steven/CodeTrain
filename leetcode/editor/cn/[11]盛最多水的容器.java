@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-
+import java.util.*;
 //给定一个长度为 n 的整数数组 height 。有 n 条垂线，第 i 条线的两个端点是 (i, 0) 和 (i, height[i]) 。 
 //
 // 找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。 
@@ -47,19 +47,23 @@ public class ContainerWithMostWater{
 class Solution {
     public int maxArea(int[] height) {
         /**
-         * 方法1：双指针
-         * 首尾双指针，每次移动比较小的那个
+         * 双指针
+         * 一头一尾，小的那个往中间找
+         * 过程中比较最大值
          */
-        int i = 0, j = height.length - 1;
         int ans = 0;
-        while (i < j) {
-            int tmp = Math.min(height[i], height[j]) * (j - i);
-            ans = Math.max(ans, tmp);
-            if (height[i] <= height[j]) {
-                i++;
-            } else {
-                j--;
-            }
+        int left = 0, right = height.length - 1;
+        while (left < right) {
+//            int capticy = (right - left) * Math.min(height[left], height[right]);
+//            ans = Math.max(ans, capticy);
+//            if (height[left] <= height[right])
+//                left++;
+//            else
+//                right--;
+            //上述注释语句可以优化,速度提升还是非常明显的
+            ans = height[left] <= height[right] ?
+                    Math.max(ans, (right - left) * height[left++]) :
+                    Math.max(ans, (right - left) * height[right--]) ;
         }
         return ans;
     }
