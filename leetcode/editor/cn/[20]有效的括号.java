@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-
+import java.util.*;
 //给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串 s ，判断字符串是否有效。 
 //
 // 有效字符串需满足： 
@@ -68,7 +68,8 @@ public class ValidParentheses{
 class Solution {
     public boolean isValid(String s) {
         /**
-         * 方法1：使用栈判断
+         * 使用栈匹配
+         * 这个题目有一点点怪，就是说出现了左括号，下一个一定会是右括号。不然就不会成对出现
          */
         Deque<Character> stack = new LinkedList<>();
         for (int i = 0; i < s.length(); i++) {
