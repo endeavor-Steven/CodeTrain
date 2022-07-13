@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-
+import java.util.*;
 //给你一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。 
 //
 // 
@@ -44,45 +44,40 @@ package leetcode.editor.cn;
 public class RemoveNthNodeFromEndOfList{
     public static void main(String[] args) {
         Solution solution = new RemoveNthNodeFromEndOfList().new Solution();
-        
     }
 
 //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
- * }
- */
-public class ListNode {
-    int val;
-    ListNode next;
-    ListNode() {}
-    ListNode(int val) { this.val = val; }
-    ListNode(int val, ListNode next) { this.val = val; this.next = next;}
-}
 class Solution {
+    class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next;}
+    }
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        //涉及到删除，所以要找到导数第N+1个点的状态，可以考虑加一个头节点
-        ListNode fast = head;
-        ListNode headPlus = new ListNode(0, head);
-        ListNode slow = headPlus;
-        for (int i = 0; i < n; i++) {
+        /**
+         * 思路，快慢指针
+         * 需要倒数几个，就把快指针放在慢指针前面多少个。
+         * 比如导数第二个。那么就用让快指针从头节点往前走两步，然后二者等步往后，快指针到表尾的时候，慢指针指的就是导数第二个
+         * 同时由于是删除导数第三个，其实真实是要找到倒数第四个
+         *
+         * 1、找到倒数n+1个节点位置
+         * 2、方便处理要加上头节点，首位节点就好处理了。返回的时候也是头节点.next
+         */
+        ListNode dummyhead = new ListNode(0, head);//构建一个头节点
+        ListNode slow = dummyhead, fast = slow;
+        int count = 0;
+        while (count != n + 1) {
             fast = fast.next;
+            ++count;
         }
-
-        while (fast != null){
+        while (fast != null) {
             fast = fast.next;
             slow = slow.next;
         }
         slow.next = slow.next.next;
-
-        return  headPlus.next;
-    }
+        return head;
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
