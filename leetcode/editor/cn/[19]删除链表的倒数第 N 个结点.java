@@ -77,7 +77,7 @@ class Solution {
             slow = slow.next;
         }
         slow.next = slow.next.next;
-        return head;
+        return dummyhead.next;
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
