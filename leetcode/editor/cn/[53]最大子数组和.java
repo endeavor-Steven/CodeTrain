@@ -61,6 +61,7 @@ class Solution {
          *思路解析，找到每个位置i结尾的最大子数组合，
          * 定义状态：f(i)位置i结尾的最大子数组合，
          * 状态方程：f(i) = max{f(i-1) + nums[i] , nums[i] }
+         * 输出：Max(dp[i])
          */
 
         //1
