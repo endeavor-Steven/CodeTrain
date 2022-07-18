@@ -53,12 +53,15 @@ class Solution {
     public int[] searchRange(int[] nums, int target) {
         /**
          * 方法：二分查找
-         * 思路解析：其实是要找到第一个等于taget的位置，和第一个大于target的位置-1
+         * 思路解析：其实是要找到第一个等于target的位置，和第一个大于target的位置-1
          * 分两个阶段
+         * 第一阶段，第一个 等于target的位置 和 第一个大于target的位置减一（结果是leftIndex）
+         * 第二阶段，
          *
          * 一个经验之谈：，如果满足条件选择的是l = mid，那么mid那里就加个1，写成l + r + 1 >> 1
          * 取中值还可以是l + r >> 1,加速
          */
+        //解法一
         int n = nums.length;
         int[] ans = new int[]{-1, -1};
         //异常值剥离
@@ -95,6 +98,31 @@ class Solution {
         return ans;
     }
     }
+
+
+    //解法二
+    //先找>=target的第一个
+    //再找>target的第一个
+    //我真是这辈子都不想看见这题
+//    public int[] searchRange(int[] nums, int target) {
+//        int l=search(nums,target);
+//        int r=search(nums,target+1);//找到第一个大于target的值
+//        if(l==nums.length||nums[l]!=target)
+//            return new int[]{-1,-1};
+//        return new int[]{l,r-1};
+//    }
+//    //找>=target的第一个+++++妙哉妙哉
+//    public int search(int[] nums,int target){
+//        int l=0,r=nums.length;
+//        while(l<r){
+//            int mid=(r+l)>>1;
+//            if(nums[mid]>=target)
+//                r=mid;
+//            else
+//                l=mid+1;
+//        }
+//        return l;
+//    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
