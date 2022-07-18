@@ -56,14 +56,6 @@ public class SearchInRotatedSortedArray{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public int search(int[] nums, int target) {
-        //时间复杂度为n，看看怎么搞成logn
-//        int ans = -1;
-//        for (int i = 0; i < nums.length; i++) {
-//            if (nums[i] == target)
-//                ans = i;
-//        }
-//        return ans;
-
 /**
  * 正经方法：二分查找
  * 加速遍历速度只有二分查找，但是这个题目不完全有序
