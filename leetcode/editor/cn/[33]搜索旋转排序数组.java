@@ -69,6 +69,9 @@ class Solution {
  * 加速遍历速度只有二分查找，但是这个题目不完全有序
  * 核心思路解析：将数组一分为二，其中一定有一个是有序的，另一个可能是有序，也能是部分有序。
  * 此时有序部分用二分法查找。无序部分再一分为二，其中一个一定有序，另一个可能有序，可能无序。就这样循环.
+ *
+ *
+ * 在思路上还有一个办法，先找到一次旋转点，然后对左右两边进行二分查找
  */
         int n = nums.length;
         int ans = -1;
@@ -81,13 +84,14 @@ class Solution {
             if (nums[mid] == target)
                 return mid; //成功的出口，不成功就走到最后
             //开始划分
-            if (nums[0] <= nums[mid]) {
+            //对有序部分进行二分查找
+            if (nums[0] <= nums[mid]) {//如果是这个情况，那么是前半段有序
                 if (nums[0] <= target && target < nums[mid]) {
                     r = mid - 1;
                 } else {
                     l = mid + 1;
                 }
-            } else {
+            } else {//否则是后半段有序
                 if (nums[mid] < target && target <= nums[n - 1]) {
                     l = mid + 1;
                 } else {
