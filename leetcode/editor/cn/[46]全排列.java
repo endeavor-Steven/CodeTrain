@@ -62,7 +62,7 @@ class Solution {
         return  ans;
     }
     public static void backtrack(List<List<Integer>> ans, List<Integer> tmp, int curr, int[] nums, boolean[] used) {
-        if (tmp.size() == nums.length) {
+        if (tmp.size() == nums.length) {//这个地方采用curr == nums.length,那么下面对应的回溯条件就是curr+1
             ans.add(new ArrayList<>(tmp));
             return;
         }
@@ -74,7 +74,6 @@ class Solution {
                 tmp.remove(tmp.size() - 1);
                 used[i] = false;
             }
-
         }
     }
 }
