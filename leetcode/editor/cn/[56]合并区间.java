@@ -47,12 +47,10 @@ class Solution {
         /**
          * 方法一：
          * 1、对二维数组进行排序,然后准备一次判断各个区间的左右端点情况
-         * 2、新组的左端点，要是在旧组的右端点后，则重复，
+         * 2、新组的左端点，要是在旧组的右端点后，则未重复，
          * 3、否则有，将新组的右端点更新到旧组的右端点，即完成一个新旧组的合并
          *
          */
-        if (intervals.length == 0) return new int[0][2];
-
         List<int[]> ans = new ArrayList<>();
         Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
         for (int i = 0; i < intervals.length; i++) {
