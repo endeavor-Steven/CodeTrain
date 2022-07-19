@@ -34,7 +34,7 @@ package leetcode.editor.cn;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Subsets{
+public class    Subsets{
     public static void main(String[] args) {
         Solution solution = new Subsets().new Solution();
         
@@ -49,12 +49,12 @@ class Solution {
         return ans;
     }
     public static void backtrack(List<List<Integer>> ans, List<Integer> tmp, int curr, int[] nums) {
-
+        //这个地方值的添加是有讲究的
         ans.add(new ArrayList<>(tmp));
         if (curr == nums.length) {
             return;
         }
-        for (int i = curr + 1; i < nums.length; i++) {//这里的i
+        for (int i = curr; i < nums.length; i++) {//这里的i
             tmp.add(nums[i]);
             backtrack(ans, tmp, i + 1, nums);//这里的i注意
             tmp.remove(tmp.size() - 1);
