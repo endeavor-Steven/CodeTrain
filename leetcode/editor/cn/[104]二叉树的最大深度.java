@@ -48,7 +48,7 @@ class Solution {
         if (root == null)
             return 0;
         int LP = maxDepth(root.left);
-        int RP = maxDepth(root.left);
+        int RP = maxDepth(root.right);
         return Math.max(LP, RP) + 1;
     }
 
