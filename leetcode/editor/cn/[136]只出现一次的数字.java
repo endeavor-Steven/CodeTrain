@@ -36,11 +36,9 @@ class Solution {
          * 异或操作符^
          */
         int ans = 0;
-        for(int num : nums) {
+        for(int num : nums)
             ans ^= num;
-        }
         return ans;
-
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
