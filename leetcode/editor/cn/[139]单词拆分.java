@@ -58,11 +58,11 @@ class Solution {
     public boolean wordBreak(String s, List<String> wordDict) {
         /**
          * 动态规划
-         * 状态定义：boolean dp[i]， 表示字符串s的 前i哥字符组成的字符串s[0， i-1] 是否能  被空格  拆分成  若干个字典中  出现的单词。
+         * 状态定义：boolean dp[i]， 表示字符串s的 前i个字符组成的字符串s[0， i-1] 是否能被 空格 拆分成 若干个字典中出现的单词。
          * 每次从0~i-1依次枚举j， 判断s1[0, j-1]和s2[j, i-1]是否合法。如果都合法则二者拼成的字符串也合法
          * 由dp[i-1]可以得出dp[i]的值可知，dp[j]可以由dp[j-1]得到,因此聚焦于获得s2[j, i-1]的合法性
          * 状态转移dp[i] = dp[j] && check(s[j, i-1]);      check用来判断s2的合法性
-         * 状态边界dp[0] = true;空串合法
+         * 状态边界dp[0] = true;认为空串合法
          *
          * 对于检查一个字符串是否出现在给定的字符串列表里一般可以考虑哈希表来快速判断
          * 如果分割点 j到 i的长度已经大于字典列表里最长的单词的长度，那么就结束枚举，
@@ -80,6 +80,7 @@ class Solution {
         }
         return dp[s.length()];
 
+//      优化一下，dp[i]只需要往前探索到词典里最长的单词即可，优化后击败100%
 //      //如果分割点 j到 i的长度已经大于字典列表里最长的单词的长度，那么就结束枚举，
 //        public boolean wordBreak(String s, List<String> wordDict) {
 //            int len = s.length(), maxw = 0;
