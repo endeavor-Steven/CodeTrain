@@ -43,8 +43,10 @@ public class LongestConsecutiveSequence{
 class Solution {
     public int longestConsecutive(int[] nums) {
         /**
-         * 原始思路：枚举每个值x，分别判断x+1, x+2, x+3， x+n是否存在,存在则长度为n+1
-         * 优化思路：优化枚举的每个点的搜索时间，同时对新的点判断其前面一个点是否连续(剪枝)
+         * 原始思路：枚举每个值x，分别判断x+1, x+2, x+3， x+n是否存在,存在则长度为n+1。
+         *      存在大量的重复判断，可以使用哈希表加速查找，以及剪枝避免重复判断
+         * 优化思路：优化枚举的每个点的搜索时间，同时对新的点判断其前面一个点是否连续(剪枝)，
+         *      连续就不管，不连续的话就开始往后面查找
          */
         int ans = 0;
         Set<Integer> set = new HashSet<>();
