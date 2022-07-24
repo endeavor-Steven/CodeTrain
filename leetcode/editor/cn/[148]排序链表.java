@@ -72,12 +72,7 @@ class Solution {
     }
     public ListNode sortList(ListNode head) {
         /**
-         * 法一：用一个数组转存，可以达到时间nlogn，但是空间就超了
-         *
-         * 法二：直接对链表进行归并排序
-         *最容易想到的实现方式是自顶向下的递归实现，考虑到递归调用的栈空间，
-         * 自顶向下归并排序的空间复杂度是O(logn)。
-         * 如果要达到 O(1) 的空间复杂度，则需要使用自底向上的实现方式。
+         * 直接对链表进行归并排序,自底向下（从小到大）
          *
          * 方法解析：
          * 1、sublen标识每次需要排序的子链表的长度，从1开始，*2
@@ -106,13 +101,13 @@ class Solution {
             ListNode curr = dummyHead.next;     // curr用于记录拆分链表的位置
 
             while(curr != null){               // 如果链表没有被拆完
-                // 3.1 拆分subLen长度的链表1
+                // 3.1 拆分subLen长度的链表1, head_1 ~ head_2的前一个
                 ListNode head_1 = curr;        // 第一个链表的头 即 curr初始的位置
                 for(int i = 1; i < subLen && curr != null && curr.next != null; i++){     // 拆分出长度为subLen的链表1
                     curr = curr.next;
                 }
 
-                // 3.2 拆分subLen长度的链表2
+                // 3.2 拆分subLen长度的链表2, head_2 ~ next
                 ListNode head_2 = curr.next;  // 第二个链表的头  即 链表1尾部的下一个位置
                 curr.next = null;             // 断开第一个链表和第二个链表的链接
                 curr = head_2;                // 第二个链表头 重新赋值给curr
