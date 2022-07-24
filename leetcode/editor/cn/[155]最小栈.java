@@ -49,57 +49,49 @@ package leetcode.editor.cn;
 import java.util.Deque;
 import java.util.LinkedList;
 
-public class MinStack{
+public class MinStack {
     public static void main(String[] args) {
         Solution solution = new MinStack().new Solution();
-        
+
     }
 
-//leetcode submit region begin(Prohibit modification and deletion)
-class MinStack {
-//    /**
-//     * 法一：辅助栈
-//     */
-//    Deque<Integer> stack;
-//    Deque<Integer> MinStack;
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class MinStack {
+        /**
+         * 法一：双栈
+         * 同步主栈保存一个最小栈。顶部始终是当前最小值
+         */
+//    Deque<Integer> s;
+//    Deque<Integer> sMin;
 //    public MinStack() {
-//        stack = new LinkedList<Integer>();
-//        MinStack = new LinkedList<Integer>();
-////        MinStack.push(Integer.MAX_VALUE);//这一步操作对应的是每次取最小的放进去
+//        s = new LinkedList<>();
+//        sMin = new LinkedList<>();
+//        sMin.push(Integer.MAX_VALUE);
 //    }
-//
 //    public void push(int val) {
-//        stack.push(val);
-////        MinStack.push(Math.min(MinStack.peek(), val));//当前这个位置的最小值。使用这种方法，在弹出时就要每次弹出
-//        if (MinStack.isEmpty() || MinStack.peek() >= val) {
-//            MinStack.push(val);
-//        }
+//        s.push(val);
+//        sMin.push(Math.min(sMin.peek(), val));
 //    }
-//
 //    public void pop() {
-//        if(stack.pop().equals(MinStack.peek()))
-//            MinStack.pop();
-////        stack.pop();
-////        MinStack.pop();
+//        s.pop();
+//        sMin.pop();
 //    }
-//
 //    public int top() {
-//        return stack.peek();
+//        return s.peek();
 //    }
-//
 //    public int getMin() {
-//        return MinStack.peek();
+//        return sMin.peek();
 //    }
 
     /**
-     * 法二，只使用一个栈
+     * 法二，数组栈（单栈）
+     * 基本元素int[] -->> [当前值, s当前最小值]
      * 同时保存，每个数字x入栈时的值 和 插入x时的最小值。换句话说存进去的是一对值
      */
     private Deque<int[]> s;
     public MinStack() {
         s = new LinkedList<>();
     }
-
     public void push(int x) {
         if (s.isEmpty()) {
             s.push(new int[]{x, x});
@@ -116,8 +108,7 @@ class MinStack {
     public int getMin() {
         return s.peek()[1];
     }
-
-}
+    }
 
 /**
  * Your MinStack object will be instantiated and called as such:
