@@ -48,6 +48,12 @@ class Solution {
     public int[] productExceptSelf(int[] nums) {
         /**
          * 左右乘积列表
+         *
+         * 1、L和R两个数组，位置i的时候分别表示左右两边的乘积
+         * 2、用两个循环分别填充两个数组，注意边界；
+         *      L[i] = L[i-1] * nums[i - 1],  L[0] = 1;
+         *      R[i] = R[i+1] * nums[i + 1],  R[n-1] = 1;
+         * 3、再迭代的时候就输出L[i] * R[i]
          */
         int len = nums.length;
         int[] L = new int[len];
