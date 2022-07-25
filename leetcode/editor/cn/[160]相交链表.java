@@ -131,7 +131,13 @@ public class Solution {
 //        }
 //        return null;
 
-        //双指针
+        /**
+         * 双指针策略
+         * 分别遍历AB链表
+         * 每一步，同时更新AB链表的遍历指针。
+         * 当pa不空，则后移；pb不空，则后移；
+         * 当pa空，则把pa移动到headB；pb空，则交换到headA
+         */
         ListNode pA = headA, pB = headB;
         if (pA == null || pB == null)
             return null;
