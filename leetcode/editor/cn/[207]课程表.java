@@ -51,62 +51,49 @@ public class CourseSchedule{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
-    List<List<Integer>> edges;
-    int [] visited;
-    boolean valid = true;
-    public boolean canFinish(int numCourses, int[][] prerequisites) {
         /**
-         * 核心操作是寻找拓扑排序。
-         * 广度优先遍历，求是否存在拓扑排序
-         * 基础思路
-         * 建立一个数组，索引表示课程，值表示这个点在图中的入度（需要先修的入度。 为0则表示先修已经结束可以学习了）
-         * 建立一个队列，将当前可以学习的课程加入队列中；建立一个结果记录学习过的课程
-         *      比如先学习C1，C1出队。结果加1，则以C1为先修课程的入度全部减一，出现入度为0的值也入队。然后再出队一个，结果加1；
-         *      重复上面
+         * 换句话说 就是 判断有向图中是否有环。
+         *      有环就无法完成，无环才可以
+         *
+         *
+         * 借助一个标志列表 flags，用于判断每个节点 i （课程）的状态：
+         *      i = 0, i点还没有启动过
+         *      i =-1, i点第一次经过，但是没有回溯(被别的节点启动的DFS)
+         *      i = 1, i点第二次经过，已经完成回溯(被当前节点启动的DFS)
+         * 枚举每个点的时候，如果出现了环可以剪枝直接返回最终结果
+         *
+         * 具体的DFS流程：
+         *      来到一个节点visit[i] = 1,递归所有凌相邻边
+         *      visit[i] = -1, 则已经被其他节点搜过了。不要再重复搜索了，可以剪枝return true;
+         *      visit[i] =  1, 则表示已经被本节点搜过了。但是此时依旧访问到了，那么就是有环return false且终止
          */
 
-
-        /**
-         * 深度优先遍历解法
-         * 使用栈来存储已经搜索完的节点
-         * 最后从栈顶到栈底就是一种拓扑排序
-         */
-        visited = new int[numCourses];
-        edges = new ArrayList<>();
-        //边集合进行初始化，
-        for (int i = 0; i < numCourses; i++) {
-            edges.add(new ArrayList<>());
-        }
-        //对课程关系进行遍历，info[0]是要学习的课程, info[1]是要先修的课程
-        //遍历结束之后，edges中保存了若干个list， 每个list都是一条边，从一个节点指向另一个节点
-        for (int[] info : prerequisites) {
-            //取出edges中要对应预修课程的那条边，在后面加入要学习的课程，完成对应info0->info1
-            edges.get(info[1]).add(info[0]);
-        }
-        //每个科目都开始准备DFS一次
-        for (int i = 0; i < numCourses && valid; i++) {
-            if (visited[i] == 0) {
-                dfs(i);
+        public boolean canFinish(int numCourses, int[][] prerequisites) {
+            int[] visit = new int[numCourses];      //// v[0]为搜索，v[-1]别的点搜索过，v[1]本点搜索过
+            List<List<Integer>> edges = new ArrayList<>();
+            for (int i = 0; i < numCourses; i++)            ////把包含所有课程的课程数量都加进去，然后准备找出所有的后继课程情况
+                edges.add(new ArrayList<>());
+            for(int[] prerequisite : prerequisites)
+                edges.get(prerequisite[1]).add(prerequisite[0]);//构建相邻关系  索引是预修课，值是后继课
+            for (int i = 0; i < numCourses; i++) {
+                if (!dfs(edges, visit, i))
+                    return false;
             }
+            return true;
         }
-        return valid;
-
-    }
-    public void dfs(int u) {
-        visited[u] = 1;//标记正在搜索
-        for (int v : edges.get(u)) {//搜索所有以u开始的边
-            if (visited[v] == 0) {
-                dfs(v);
-                if (!valid) {//当标识为假时（已经沿一条路径搜索结束），则停止DFS
-                    return ;
-                }
-            } else if (visited[v] == 1){//点已经时搜索中的点了
-                valid = false;
-                return ;
+        public boolean dfs(List<List<Integer>> edges, int[] visit, int i ) {
+            if (visit[i] == 1)
+                return false;
+            if (visit[i] == -1)
+                return true;
+            visit[i] = 1;
+            for (int j  : edges.get(i)) {//把预修为i的课取出来。换句话说就是通过i指向j
+                if(!dfs(edges, visit, j))//对下一个点进行dfs
+                    return false;
             }
+            visit[i] = -1;//标记为被别的点搜索过了
+            return true;
         }
-        visited[u] = 2;//标记为已搜索完
-    }
 }
 //leetcode submit region end(Prohibit modification and deletion)
 
