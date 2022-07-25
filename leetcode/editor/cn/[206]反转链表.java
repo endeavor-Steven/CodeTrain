@@ -68,15 +68,29 @@ class Solution {
         ListNode(int x, ListNode node) {this.val = x; this.next = node}
     }
     public ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) return head;
-        ListNode dummyNode = new ListNode(0, null);
-        while (head != null) {
-            ListNode tmp = head;
-            head = head.next;
-            tmp.next = dummyNode.next;
-            dummyNode.next = tmp;
+        //递归
+//        if (head == null || head.next == null) return head;
+//        ListNode dummyNode = new ListNode(0, null);
+//        while (head != null) {
+//            ListNode tmp = head;
+//            head = head.next;
+//            tmp.next = dummyNode.next;
+//            dummyNode.next = tmp;
+//        }
+//        return dummyNode.next;
+
+        //迭代--最优解
+        //取一个pre指向前面的节点，取一个tmp保留后面的节点，然后每次Ⅹcurr.next = pre，然后更新各个指针
+        ListNode pre = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode tmp = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = tmp;
         }
-        return dummyNode.next;
+        return pre;
+
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
