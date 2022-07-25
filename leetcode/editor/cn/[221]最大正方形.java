@@ -49,10 +49,9 @@ public class MaximalSquare {
         public int maximalSquare(char[][] matrix) {
             /**
              * 动态规划
-             * 状态：dp[i][j], 标识ij为右下角的正1方形大小
-             * 转移：//三者间最小的的+1
-             *  nums[i][j] = 0 => dp[i][j] = 0 ,
-             *  dp[i][j] = min(dp[i-1][j] , dp[i][j-i] , dp[i-1][j-1])
+             * 状态：dp[i][j], 以matrix[i][j]为右下角的正方形最大边长
+             *      nums[i][j] = 0 => dp[i][j] = 0
+             * 转移：dp[i][j] = min(dp[i-1][j] , dp[i][j-i] , dp[i-1][j-1])  ， 最小的那个是最不受限制的
              * 边界：dp[i][j] = 1; nums[i][j] = 1 && (i == 0 || j == 0)
              */
             if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
@@ -63,7 +62,7 @@ public class MaximalSquare {
             int[][] dp = new int[cols][rows];
             for (int i = 0; i < cols; i++) {
                 for (int j = 0; j < rows; j++) {
-                    if (matrix[i][j] == '1') {
+                    if (matrix[i][j] == '1') {  //当前遍历到符合地区启动要求的点
                         if (i == 0 || j == 0) {
                             dp[i][j] = 1;
                         } else {
