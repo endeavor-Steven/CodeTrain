@@ -55,43 +55,49 @@ class Solution {
     class ListNode {
         int val;
         ListNode next;
+        ListNode(int x, ListNode next) {
+            this.val = x;
+            this.next = next;
+        }
     }
     public boolean isPalindrome(ListNode head) {
-        /**
-         * 时间n， 空间1
-         * 1找到前半部分链表的尾节点。使用快慢指针
-         * 2反转后半部分链表。
-         * 3判断是否回文。
-         * 4恢复链表。如果不考虑还可以更快，但是题目只是说让判断
-         * 5返回结果。
-         */
-        if (head == null)
+    /**
+     * 时间n， 空间1
+     * 1找到前半部分链表的尾节点。使用快慢指针
+     * 2反转后半部分链表。
+     * 3判断是否回文。
+     * 4恢复链表。如果不考虑还可以更快，但是题目只是说让判断
+     * 5返回结果。
+     *
+     * 还有一种解法性能会更好一点，就是在找中点的过程中迭代逆序前面半截
+     */
+        if (head.next == null)
             return true;
         ListNode fast = head, slow = head;
-        while (fast != null && fast.next != null) {
-            slow = slow.next;
+        while (fast.next != null && fast.next.next != null) {
             fast = fast.next.next;
-        }
+            slow = slow.next;
+        }//结束的时候s，的后半截翻转
+        slow = slow.next;//从后面一个节点开始嘛
         slow = reverse(slow);
-        ListNode slowP = slow;
-        while (slowP != null) {
-            if (head.val != slowP.val)
+        ListNode pre = head;
+        while (slow != null) {
+            if (pre.val != slow.val)
                 return false;
-            head = head.next;
-            slowP = slowP.next;
+            slow = slow.next;
+            pre = pre.next;
         }
         return true;
-
     }
     public ListNode reverse(ListNode head) {
-        ListNode newHead = new ListNode();
-        while (head != null) {
+        ListNode dummyHead = new ListNode(0, null);
+        while(head != null) {
             ListNode tmp = head;
             head = head.next;
-            tmp.next = newHead.next;
-            newHead.next = tmp;
+            tmp.next = dummyHead.next;
+            dummyHead.next = tmp;
         }
-        return newHead.next;
+        return dummyHead.next;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
