@@ -59,35 +59,102 @@ public class ImplementTriePrefixTree{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Trie {
     /**
-     * HashMap实现
-     * 此方法不是优解
+     * 前缀树——最优解
+     * 这玩意儿可以理解成一个26叉树
+     * 每个树节点包括:
+     *      boolean end; //当前这个字符是不是字符串的结尾
+     *      char[26];   //对应从a到z的26个字母
+     * 树的插入：
+     *      从树根开始比对字符，沿着字符顺序搜寻子节点是否存在。
+     *      1、子节点存在：则沿着子节点往下搜索；
+     *      2、子节点不存在：创建一个新的节点，挂在这一级节点的数组的对应位置上，然后继续处理下一个字符
+     * 树的查找：
+     *      从树根开始寻找比对字符串的字符；
+     *      1、子节点存在，继续寻找下一个节点比对下一个字符
+     *      2、子节点不存在，则没有这个前缀，返回空指针
+     *
      */
-    Map<String, Boolean> map;//用map来模拟前缀树
-    //初始化构造器
-    public Trie() {
-        map = new HashMap<>();
-    }
-    //向前缀树中插入字符串word
-    public void insert(String word) {
-        map.put(word, true);
-    }
-    //如果word在前缀树中则返回true, 否则返回false
-    public boolean search(String word) {
-        return map.getOrDefault(word, false);
-    }
-    //如果之前插入的字符串word的前缀之一为prefix则返回true， 否则返回false
-    public boolean startsWith(String prefix) {
-        //思路：遍历Map的key， 在长度匹配的情况下， 对keyset进行切片比较
-        Set<String> mapKeySet = map.keySet();
-        for (String str : mapKeySet) {
-            if (str.length() >= prefix.length()) {
-                String subWord = str.substring(0, prefix.length());
-                if (subWord.equals(prefix))
-                    return true;
-            }
+    class TriNode {
+        boolean isEnd;
+        TriNode[] next;
+        TriNode(){
+            isEnd = false;
+            next = new TriNode[26];
         }
-        return false;
     }
+
+    TriNode root;
+    public Trie() {
+        root = new TriNode();
+    }
+
+    public void insert(String word) {
+        TriNode node = root;    //准备要搜索的节点
+        for (char letter : word.toCharArray()) {
+            if (node.next[letter - 'a'] == null)
+                node.next[letter - 'a'] =  new TriNode();
+            node = node.next[letter - 'a'];
+        }
+        node.isEnd = true;
+    }
+
+    public boolean search(String word) {
+        TriNode node = root;    //准备要搜索的节点
+        for (char letter : word.toCharArray()) {
+            node = node.next[letter - 'a'];
+            if (node == null)
+                return false;
+        }
+        return node.isEnd;
+    }
+
+    public boolean startsWith(String prefix) {
+        TriNode node = root;    //准备要搜索的节点
+        for (char letter : prefix.toCharArray()) {
+            node = node.next[letter - 'a'];
+            if (node == null)
+                return false;
+        }
+        return true;
+    }
+
+
+
+
+
+
+
+
+    /**
+     * HashMap实现
+     * 此方法不是优解，只是一个骚骚解法，但是有点酷。
+     */
+//    Map<String, Boolean> map;//用map来模拟前缀树
+//    //初始化构造器
+//    public Trie() {
+//        map = new HashMap<>();
+//    }
+//    //向前缀树中插入字符串word
+//    public void insert(String word) {
+//        map.put(word, true);
+//    }
+//    //如果word在前缀树中则返回true, 否则返回false
+//    public boolean search(String word) {
+//        return map.getOrDefault(word, false);
+//    }
+//    //如果之前插入的字符串word的前缀之一为prefix则返回true， 否则返回false
+//    public boolean startsWith(String prefix) {
+//        //思路：遍历Map的key， 在长度匹配的情况下， 对keyset进行切片比较
+//        Set<String> mapKeySet = map.keySet();
+//        for (String str : mapKeySet) {
+//            if (str.length() >= prefix.length()) {
+//                String subWord = str.substring(0, prefix.length());
+//                if (subWord.equals(prefix))
+//                    return true;
+//            }
+//        }
+//        return false;
+//    }
 }
 
 /**
