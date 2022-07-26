@@ -45,15 +45,19 @@ public class MoveZeroes{
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public void moveZeroes(int[] nums) {
-        if (nums.length == 1)
-            return;
-        int i = 0;
-        for (int j = 0; j < nums.length; j++) {
-            if (nums[j] != 0){
-                nums[i++] = nums[j];
+        int n = nums.length;
+        if (n == 1)
+            return ;
+        int left = 0, right = 0;
+        while (right < n) {
+            if (nums[right] != 0) {
+                int tmp = nums[right];
+                nums[right] = nums[left];
+                nums[left] = tmp;
+                ++left;
             }
+            ++right;
         }
-        Arrays.fill(nums, i, nums.length, 0);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
