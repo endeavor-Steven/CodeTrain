@@ -57,11 +57,10 @@ class Solution {
     public int lengthOfLIS(int[] nums) {
         /**
          * 动态规划
-         * 定义：dp[i], 位置0~i的最大自增子序列长度
-         * 状态：dp[i] = max(dp[j]) + 1   && dp[j] < dp[i], nums[j] < nums[i]
-         *      nums[j], 是nums[0~j]中以j结尾的最长子序列长度
-         * 边界：dp[0] = 1
-         * 输出：max(dp[])
+         * 定义：dp[i], 以i结尾的，前i个元素的最长增序子列。
+         * 状态：dp[i] = max(dp[j]) + 1，  注意：0 <= j < i && nums[j] < nums[i]
+         * 边界：dp[0] = 1, dp[i] = 1;
+         * 输出：max(dp[i])
          */
         int ans = 1;
         int[] dp = new int[nums.length];
