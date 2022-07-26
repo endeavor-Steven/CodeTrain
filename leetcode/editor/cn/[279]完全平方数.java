@@ -46,7 +46,7 @@ class Solution {
          * 假设当前找到的数是i, 那么还要找到 n - i*i  的情况加上 i 的情况
          *
          * 定义：dp[i], 最少需要多少个完全平方数来表示i
-         * 状态：dp[i] = min(dp[i], 1 + dp[i - j * j]) (1 <= j <= sqrt(j));
+         * 状态：dp[i] = min(dp[i], 1 + dp[i - j * j]) (1 <= j <= sqrt(i));
          *      这里的1 + dp[i - j * j]指的应该是 找到i - j^2 的最小平方数组合
          * 边界：dp[0] = 0;
          */
