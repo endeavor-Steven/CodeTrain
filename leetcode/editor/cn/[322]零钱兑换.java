@@ -52,14 +52,10 @@ class Solution {
     public int coinChange(int[] coins, int amount) {
         /**
          * 动态规划
-         * 定义：
-         *      dp[i], 凑成i，最少需要多少个硬币
-         * 转移：
-         *      dp[i] = min(dp[i-coin] + 1)  , coin : coins
-         * 返回：
-         *      dp[amount];
-         * 边界：
-         *      dp[0] = 0;
+         * 定义：dp[i], 凑成i，最少需要多少个硬币
+         * 转移：dp[i] = min(dp[i-coin] + 1)  , coin : coins
+         * 返回：dp[amount];
+         * 边界：dp[0] = 0;
          */
         int[] dp = new int[amount + 1];
         Arrays.fill(dp, amount + 1);//此处的默认是给一个初始值，用来判断是否呗改变过
