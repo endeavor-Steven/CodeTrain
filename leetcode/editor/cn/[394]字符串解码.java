@@ -64,25 +64,26 @@ class Solution {
     public String decodeString(String s) {
         /**
          * 双栈辅助
+         *
          */
         StringBuffer ans=new StringBuffer();
-        Deque<Integer> strStack=new LinkedList<>();
-        Deque<StringBuffer> numStack=new LinkedList<>();
+        Deque<StringBuffer> strStack=new LinkedList<>();
+        Deque<Integer> numStack=new LinkedList<>();
         int number = 0;
         for(char c : s.toCharArray()){
-            if(Character.isDigit(c))
-                number = number * 10 + c - '0';
-            else if(c == '['){
-                numStack.push(ans);
-                strStack.push(number);
-                ans = new StringBuffer();
-                number = 0;
-            }else if(Character.isAlphabetic(c)){
-                ans.append(c);
-            }else{
-                StringBuffer ansTmp = numStack.pop();
-                int tmp = strStack.pop();
-                for(int i = 0; i < tmp; i++)
+            if(Character.isDigit(c))    //当遍历到字符时
+                number = number * 10 + c - '0';//先把数字字符变成数字累积下来，防止有超过个位的情况
+            else if(c == '['){          //遍历到左括号
+                strStack.push(ans);     //字符串压入字符栈
+                numStack.push(number);  //数字压入数字栈
+                ans = new StringBuffer();//更新字符串
+                number = 0;             //更新数字
+            }else if(Character.isAlphabetic(c)){ //遍历到英文字母时
+                ans.append(c);  //把字母加到字符串后面
+            }else{                       //遍历到右括号
+                StringBuffer ansTmp = strStack.pop();//从字符栈中取出一组[]中的解码字符
+                int tmp = numStack.pop();   //取出这组字符的扩充倍数
+                for(int i = 0; i < tmp; i++)    //开始倍增
                     ansTmp.append(ans);
                 ans = ansTmp;
             }
