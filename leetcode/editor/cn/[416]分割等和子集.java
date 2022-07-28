@@ -60,8 +60,9 @@ class Solution {
          *      dp[0][nums[0]] = true;  只有一个正整数可以选取
          * 状态：
          *      dp[i][j] =
-         *          dp[i-1][j] | dp[i-1][j-nums[i]]     1   j >= nums[i]
-         *          dp[i-1][j]                          2   j < nums[i]
+         *          dp[i-1][j] || dp[i-1][j-nums[i]]     1   j >= nums[i]，当前点不取 || 当前点取
+         *          dp[i-1][j]                           2   j < nums[i], 当前点无法取
+         *
          *
          * 返回：
          */
@@ -85,9 +86,9 @@ class Solution {
         dp[0][nums[0]] = true;              //对于只取第一个数的情况
         //状态转移
         for (int i = 1; i < len; i++) {
-            for (int j = 1; j <= target; j++) {
-                if (j >= nums[i]) {
-                    dp[i][j] = dp[i - 1][j] | dp[i - 1][j - nums[i]];
+            for (int j = 1; j <= target; j++) {//在0-i内任意取值，是否能组成j
+                if (j >= nums[i]) { //当前的值比较小，意思就是这个值可以取也可以不取
+                    dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]];
                 } else {
                     dp[i][j] = dp[i - 1][j];
                 }
