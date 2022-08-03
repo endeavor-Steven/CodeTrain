@@ -60,6 +60,7 @@ class Solution {
     public boolean exist(char[][] board, String word) {
         /**
          * 方法一：回溯
+         * 面试题12有更优解
          * uesd[][]用来标识当前位置是否使用过
          * 回溯出口，长度达到则成功，出现不匹配则失败
          * 枚举四种动作，更新后的位置，在合理范围内进行回溯递归，逐层回归递归结果
