@@ -60,7 +60,7 @@ class Solution {
     public boolean exist(char[][] board, String word) {
         /**
          * 方法一：回溯
-         *uesd[][]用来标识当前位置是否使用过
+         * uesd[][]用来标识当前位置是否使用过
          * 回溯出口，长度达到则成功，出现不匹配则失败
          * 枚举四种动作，更新后的位置，在合理范围内进行回溯递归，逐层回归递归结果
          */
@@ -86,7 +86,7 @@ class Solution {
         int[][] actions = new int[][]{{0, 1}, {0, -1}, {-1, 0}, {1, 0}};
         for (int[] action : actions) {
             int newI = i + action[0], newJ = j + action[1];
-            if (0 <= newI && newI < board.length && 0 <= newJ && newJ <= board[0].length) {
+            if (0 <= newI && newI < board.length && 0 <= newJ && newJ < board[0].length) {
                 if (!used[newI][newJ]) {
                     boolean flag = check(board, newI, newJ, used, word, k+1);
                     if (flag) {
