@@ -56,8 +56,22 @@ public class DuiChengDeErChaShuLcof{
  * }
  */
 class Solution {
+    class TreeNode {
+        int val;
+        TreeNode left, right;
+        TreeNode(){}
+        TreeNode(int x){this.val = x;}
+    }
     public boolean isSymmetric(TreeNode root) {
-
+        if (root == null)
+            return true;
+        return match(root.left, root.right);
+    }
+    public static boolean match(TreeNode l, TreeNode r) {
+        if (l == null && r == null) return true;
+        if (l == null || r == null) return false;
+        if (l.val != r.val) return false;
+        return (l.val == r.val) && match(l.left, r.right) && match(l.right, r.left); //这个地方注意传参
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
