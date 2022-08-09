@@ -29,6 +29,9 @@ package leetcode.editor.cn;
 // 
 // Related Topics 数学 双指针 枚举 👍 465 👎 0
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class HeWeiSdeLianXuZhengShuXuLieLcof{
     public static void main(String[] args) {
         Solution solution = new HeWeiSdeLianXuZhengShuXuLieLcof().new Solution();
@@ -39,11 +42,26 @@ public class HeWeiSdeLianXuZhengShuXuLieLcof{
 class Solution {
     public int[][] findContinuousSequence(int target) {
         /**
-         * 双指针
-         * 可以用HashMap但是题目显然在提示你用别的办法
+         * 滑动窗口
          */
-        int i = 0, j =
-
+        int left = 1, right = 2, sum = 3;
+        List<int[]> res = new ArrayList<>();
+        while (left < right) {
+            if (sum == target) {
+                int[] tmp = new int[right - left + 1];//临时生成一个数组用来记录
+                for (int i = left; i <= right; i++)
+                    tmp[i-left] = i;
+                res.add(tmp);
+            }
+            if (sum >= target) { //注意这里得条件
+                sum -= left;
+                ++left;
+            } else {
+                ++right;
+                sum += right;
+            }
+        }
+        return res.toArray(new int[0][]);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
