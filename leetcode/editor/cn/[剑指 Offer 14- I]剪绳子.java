@@ -72,7 +72,7 @@ class Solution {
         for(int i = 2; i <= n; i++) {
             for(int j = 1; j < i; j++) {
                 // 求出两种转移情况(乘积个数为2和2以上)的最大值
-                int tmp = Math.max(dp[j] * (i - j), j * (i - j));
+                int tmp = Math.max(dp[i-j] * j, j * (i - j));
                 dp[i] = Math.max(tmp, dp[i]);
             }
         }
