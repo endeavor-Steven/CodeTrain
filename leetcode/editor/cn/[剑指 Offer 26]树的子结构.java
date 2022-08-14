@@ -58,9 +58,21 @@ class Solution {
         TreeNode(int x) {this.val = x;}
     }
     public boolean isSubStructure(TreeNode A, TreeNode B) {
+        /**
+         * 思路流程：
+         *      若树 B是树 A的子结构，则子结构的根节点可能为树 A的任意一个节点。
+         *      因此，判断树 B否是树 A的子结构，需完成以下两步工作：
+         *          1.先序遍历A中的所有节点
+         *          2.遍历过程中A的每一个节点nA都判断一下是否包含B
+         * 怎么判断nA是否包含B呢
+         *      目的是匹配到nA.val = B.val
+         *      然后二者保持同步递归，如果是子结构那么就可以同时走下去
+         *      当B递归到叶子节点以外的时候那么就可以认为是成功了
+         *
+         */
         if (A == null || B == null)//题目约定空树不是子树
             return false;
-        //递归遍历
+        //先序递归遍历，分别去对nA判断是否包含B
         return match(A, B) || isSubStructure(A.left, B) || isSubStructure(A.right, B);
     }
 
