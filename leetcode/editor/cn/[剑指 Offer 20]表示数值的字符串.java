@@ -95,30 +95,31 @@ class Solution {
          * ‘.’出现正确情况：只出现一次，且在e的前面
          * ‘e’出现正确情况：只出现一次，且出现前有数字
          * ‘+’‘-’出现正确情况：只能在开头和e后一位
+         *
+         * 另外numFlag配合使用
          */
         if (s == null || s.length() == 0) return false;
-        //去掉首位空格
-        s = s.trim();
-        boolean numFlag = false;
+        s = s.trim();//去掉首位空格
+        boolean numFlag = false;    //三个flag都来标明数字、小数点、符号e是不是出现过
         boolean dotFlag = false;
         boolean eFlag = false;
-        for (int i = 0; i < s.length(); i++) {
-            //判定为数字，则标记numFlag
+        for (int i = 0; i < s.length(); i++) {//枚举所有的位数，然后找出正确情况
+            //出现数字位,则标识数字位
             if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
                 numFlag = true;
-                //判定为.  需要没出现过.并且没出现过e
+            //第一次出现小数点，且e未出现
             } else if (s.charAt(i) == '.' && !dotFlag && !eFlag) {
                 dotFlag = true;
-                //判定为e，需要没出现过e，并且出过数字了
+            //第一次出现e，且已经出现了数字
             } else if ((s.charAt(i) == 'e' || s.charAt(i) == 'E') && !eFlag && numFlag) {
                 eFlag = true;
                 numFlag = false;//为了避免123e这种请求，出现e之后就标志为false
-                // 对于存在 e 的情况，接收到 e 时已经判断前面有数字了，并将 numFlag 重置，
+                //对于存在e的情况，接收到e时已经判断前面有数字了，并将 numFlag 重置，
                 //意味着当接收到 e 后，如果后面没有数字（没有将 numFlag 重新标记为真），那么也是不对的。
-                //判定为+-符号，只能出现在第一位或者紧接e后面
+            //出现了正负号且位置是首位或者e后面
             } else if ((s.charAt(i) == '+' || s.charAt(i) == '-') && (i == 0 || s.charAt(i - 1) == 'e' || s.charAt(i - 1) == 'E')) {
 
-                //其他情况，都是非法的
+            //其他情况，都是非法的
             } else {
                 return false;
             }
