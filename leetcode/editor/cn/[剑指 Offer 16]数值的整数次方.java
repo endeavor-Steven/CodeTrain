@@ -65,6 +65,7 @@ class Solution {
             realN = 0 - realN;
         }
         //快速幂操作
+
         double ans = 1.0;
         while (realN > 0) {
             if ((realN & 1) == 1)//不能取整的时候向下取整多出来一个
