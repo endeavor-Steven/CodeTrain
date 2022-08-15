@@ -78,6 +78,8 @@ class Solution {
      * 本题难点： 在复制链表的过程中构建新链表各节点的 random 引用指向。
      *
      * 使用HashMap存储所有的节点,{ket:oldNode;value:newNode}
+     * 这样我需要使用这个点来组装的时候，他是干净的，不会因为两个指针空域导致问题。
+     * 我再根据他的需求找相应的干净节点装上来。
      */
     public Node copyRandomList(Node head) {
         if (head == null)  return null;
