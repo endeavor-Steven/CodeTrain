@@ -39,29 +39,31 @@ public class ErChaSouSuoShuDeHouXuBianLiXuLieLcof{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+    /**
+     *          5
+     *      2        8
+     *   1     3   7     9
+     *  inorder 1, 2, 3, 5, 7, 8, 9
+     *  pre     5, 2, 1, 3, 8, 7, 9
+     *  post    1, 3, 2, 7, 9, 8, 5
+     *
+     *  法一：递归法
+     *      1.划分左右子树
+     *          二叉搜索树的特质就是，左子树的值小于根，右子树的值大于根，
+     *          那就意味着后序遍历序列中，从左往右遍历，第一个大于末位点的值，就是右子树的开始，由此可以划分左右子树区间。
+     *          然后递归处理左右子树
+     *      2.判断搜索树
+     *          左子区间的所有值是小于当前根节点的，右子区间的所有值是大于当前节点的
+     *
+     *  这个题还有一个很秀的解法，看不懂下次一定
+     */
     public boolean verifyPostorder(int[] postorder) {
-        /**
-         *          5
-         *      2        8
-         *   1     3   7     9
-         *  inorder 1, 2, 3, 5, 7, 8, 9
-         *  pre     5, 2, 1, 3, 8, 7, 9
-         *  post    1, 3, 2, 7, 9, 8, 5
-         *
-         *  法一：递归法
-         *  二叉搜索树的特质就是，左子树的值小于根，右子树的值大于根
-         *  根据后序遍历的特点，最后一的点树的根，从左往右遍历找到的第一个大于根的值就可以划分出左右子树了。
-         *  然后判断左右区间是否满足这个二叉树的特质，取一个遍历符从当前区间的左边接力一次遍历到根的前方，就没问题。
-         *  递归判断
-         *
-         *  这个题还有一个很秀的解法，看不懂下次一定
-         */
         return classify(postorder, 0, postorder.length - 1);
     }
     public boolean classify(int[] postorder, int left, int right) {
         //left是当前子区间的最左侧,right是当前子区间的最右侧也是子树树根
         if (left >= right)  return true;
-        int index = left;
+        int index = left;//先遍历左子区间，判断 左子树 < 树根值，停止的位置应该是右子区间的头部
         while (postorder[index] < postorder[right]) ++index;
         int gap = index;
         while (postorder[index] > postorder[right]) ++index;
