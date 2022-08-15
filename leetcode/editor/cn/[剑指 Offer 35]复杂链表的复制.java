@@ -77,20 +77,20 @@ class Solution {
      * 这个题目要做深拷贝，但是问题在于，在迭代复制random指针的时候可能还没有创建出来
      * 本题难点： 在复制链表的过程中构建新链表各节点的 random 引用指向。
      *
-     *
+     * 使用HashMap存储所有的节点,{ket:oldNode;value:newNode}
      */
     public Node copyRandomList(Node head) {
         if (head == null)  return null;
 
         Node p = head;  //遍历指针
         Map<Node, Node> map = new HashMap<>(); //NodeOld -> NodeNew
-        while (p != null) {
-            map.put(p, new Node(p.val));
+        while (p != null) { //将所有节点存入Map中
+            map.put(p, new Node(p.val));//目的是，可以搜索这个节点，然后没有指针的干净节点用来组装
             p = p.next;
         }
         p = head;
-        while (p != null) {
-            map.get(p).next = map.get(p.next);
+        while (p != null) {//构建新的链表
+            map.get(p).next = map.get(p.next);//分别装值
             map.get(p).random = map.get(p.random);
             p = p.next;
         }
