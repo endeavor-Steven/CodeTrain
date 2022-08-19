@@ -28,6 +28,7 @@ package leetcode.editor.cn;
 // 数组的数取值为 [0, 13] . 
 // Related Topics 数组 排序 👍 261 👎 0
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,8 +42,10 @@ public class BuKePaiZhongDeShunZiLcof{
 class Solution {
     public boolean isStraight(int[] nums) {
         /**
-         * 不允许重复，不管0，找到最大最小值
-         * max-min < 5 ==> true
+         * 题目解读：
+         *      1.大小王是0，即除了大小王其他的牌不能重复
+         *      2、除了大小王，最大牌 - 最小牌 < 5
+         *  使用Set来处理重复问题
          */
         int max = 0, min = 14;//注意初始值的设定
         Set<Integer> set = new HashSet<>();
@@ -54,6 +57,23 @@ class Solution {
             set.add(num);
         }
         return max - min < 5;
+    }
+    public boolean isStraight2(int[] nums) {
+        /**
+         * 题目解读：
+         *      1.大小王是0，即除了大小王其他的牌不能重复
+         *      2、除了大小王，最大牌 - 最小牌 < 5
+         *  使用排序的方式来过滤重复
+         */
+        Arrays.sort(nums);
+        int joker = 0;
+        for(int i = 0; i < nums.length; i++) {
+            if (nums[i] == 0)
+                ++joker;    // 统计大小王数量
+            else if (nums[i] == nums[i+1])
+                return false;// 若有重复，提前返回 false
+        }
+        return nums[4] - nums[joker] < 5;//这个时候joker位置的值是第一个不为0的最小值
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
