@@ -72,29 +72,26 @@ class Solution {
          * 考虑通过递归对二叉树进行先序遍历，当遇到节点p或q时返回。
          * 从底至顶回溯，当节点p, q在节点 root的异侧时，节点 root即为最近公共祖先，则向上返回root 。
          *
-         * l、r 非空时，说明 p、q 分居 root 的两侧，root 就是 LCA
-         * l、r 任一为空，说明 LCA 位于另一子树或其祖先中
+         * l、r 非空时，说明 p、q 分居 root 的两侧，root 就是 最近公共祖先
+         * l、r 任一为空，说明最近公共祖先位于另一子树或其祖先中
          *
-         * 也可以存储父节点的形式来做
+         *
+         * 也可以存储父节点的形式来做，使用HashMap存储每个结点的父节点
          */
         if(root == null)
-            return null; // 如果树为空，直接返回null
-        if(root == p || root == q)
-            return root; // 如果 p和q中有等于 root的，那么它们的最近公共祖先即为root（一个节点也可以是它自己的祖先）
-        // 递归遍历左子树，只要在左子树中找到了p或q，则先找到谁就返回谁
+            return null;
+        if(root == p || root == q)//根节点递归到了一个目标位置(p或者q)，那么返回回去
+            return root;
+        // 递归左子树，右子树，寻找p,q先找到谁就返回谁，这里可以看成一个找祖先的过程
         TreeNode left = lowestCommonAncestor(root.left, p, q);
-        // 递归遍历右子树，只要在右子树中找到了p或q，则先找到谁就返回谁
         TreeNode right = lowestCommonAncestor(root.right, p, q);
-        // 如果在左子树中 p和 q都找不到，则 p和 q一定都在右子树中，
-        // 右子树中先遍历到的那个就是最近公共祖先（一个节点也可以是它自己的祖先）
-        if(left == null)     return right;
-        // 否则，如果 left不为空，在左子树中有找到节点（p或q），这时候要再判断一下右子树中的情况，
-        // 如果在右子树中，p和q都找不到，则 p和q一定都在左子树中，
-        // 左子树中先遍历到的那个就是最近公共祖先（一个节点也可以是它自己的祖先）
-        else if(right == null)  return left;
-        //否则，当 left和 right均不为空时，说明 p、q节点分别在 root异侧, 最近公共祖先即为 root
-        else  return root;
-
+        //下面三个判断相当于在逼近pq两点存在的范围
+        if(left == null)
+            return right;	//左子树一个点都找不到，那么肯定两个目标点都在右侧
+        else if(right == null)
+            return left;	//右子树一个点都找不到，那么肯定两个目标点都在右侧
+        else
+            return root;//左右子树的分别含有目标前，此时root就是祖先
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
