@@ -27,18 +27,27 @@ public class BuYongJiaJianChengChuZuoJiaFaLcof{
 
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
+    /**
+     * 在位运算的角度讲，每个位的操作分为 进位的情况 和 当前位 的情况
+     * 通过观察可以发现，在两个数进行求和的时候，
+     *      ==>>1.n = a ⊕ b         非进位的和，第i位，操作和异或是一样的
+     *          2.c = (a & b) << 1  进位，第i+1位，操作是与操作后往左进一
+     *      ==>>和sum = n + c
+     * 循环求n和c，一直到c = 0的时候，此时返回s = n
+     *
+     */
     public int add(int a, int b) {
-        /**
-         * 在位运算的角度讲，每个位的操作分为 进位的情况 和 当前位 的情况
-         * 通过观察可以发现，在两个数进行求和的时候，当前位的结果和异或操作一样，进位的结果和与运算一样（结果要左移哦）
-         */
         while(b != 0){
             int c = (a & b) << 1; //拿到进位
-            a ^= b;               //拿到当前位
-            b = c;                //迭代
+            a ^= b;               //拿到非进位和
+            b = c;                //迭代，让b = 进位
         }
         return a;
-
+    }
+    public int add2(int a, int b) {
+        if (b == 0)
+            return a;
+        return add(a ^ b, (a & b) << 1);        // 转换成非进位和 + 进位
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
