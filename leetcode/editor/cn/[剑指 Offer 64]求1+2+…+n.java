@@ -42,7 +42,7 @@ class Solution {
          */
         boolean x =  n > 1 && sumNums(n-1) > 0;
         res += n;
-        return n;
+        return res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
